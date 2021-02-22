@@ -57,19 +57,19 @@ export default class CourseManager
     render() {
         return (
             <div>
-                <nav className="wbdv-sticky-top wbdv-padding-15px">
+                <nav className="wbdv-sticky-top wbdv-padding-15px ">
                     <div className="row">
                         <div className="col-1">
-                            <i className="fa fa-bars fa-2x"></i>
+                            <i className="fa fa-align-justify fa-2x"></i>
                         </div>
-                        <div className="col-3">
+                        <div className="col-3 d-none d-lg-inline">
                             <h4>Course Manager</h4>
                         </div>
-                        <div className="col-6">
+                        <div className="col-6 ">
                             <input className="form-control" placeholder="New Course Title"/>
 
                         </div>
-                        <div className="col-2">
+                        <div className="col-2 input-group-append">
                             <i className="fas fa-plus-circle fa-2x" onClick={this.addCourse}></i>
                             <Link to="/">
                                 <i className="fas fa-2x fa-home float-right"></i>
@@ -95,11 +95,18 @@ export default class CourseManager
                 <Route path="/courses/editor"
                        render={(props) => <CourseEditor props={props}/>}>
                 </Route>
-                <div className="">
-                    <i className="fas fa-plus-circle fa-4x float-right"
-                       onClick={this.addCourse}/>
-                </div>
+                {/*<div className="">*/}
+                {/*    <i className="fas fa-plus-circle fa-4x float-right"*/}
+                {/*       onClick={this.addCourse}/>*/}
+                {/*</div>*/}
+                <button className="wbdv-bottom-right-button mx-2 btn btn-lg btn-primary rounded-circle" type="button"
+                        onClick={this.addCourse}
+                >
+                    <i className="fas fa-plus"></i>
+                </button>
             </div>
         )
+
     }
+
 }
