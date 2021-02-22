@@ -1,0 +1,15 @@
+.wbdv-sticky-top {
+    position: relative;
+    width: 100%;
+    background-color: #e3f2fd;
+    z-index: 1;
+    top: auto;
+}
+
+/*.container {*/
+/*    padding-top: 0px;*/
+/*}*/
+
+.wbdv-padding-15px {
+    padding: 15px;
+}
