@@ -27,10 +27,10 @@ const CourseRow = (
                     />
                 }
             </td>
-            <td>{owner}</td>
-            <td>{lastModified}</td>
+            <td class="d-none d-md-table-cell">{owner}</td>
+            <td class="d-none d-sm-table-cell">{lastModified}</td>
             <td className="px-3 text-right">
-                <i onClick={() => deleteCourse(course)} className="fas fa-trash fa-2x text-danger pr-1"></i>
+                <i onClick={() => deleteCourse(course)} className="fas fa-trash fa-2x text-danger float-right pr-1"></i>
                 {!editing && <i onClick={() => setEditing(true)} className="fas fa-edit fa-2x pr-1"></i>}
                 {editing && <i onClick={() => saveTitle()} className="fas fa-check-circle fa-2x text-success"></i>}
             </td>
