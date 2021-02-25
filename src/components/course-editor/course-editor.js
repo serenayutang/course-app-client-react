@@ -1,8 +1,8 @@
 import React from 'react'
 import "./course-editor.css";
-import {useHistory, Link} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
-const CourseEditor = (props) => {
+const CourseEditor = () => {
     let history = useHistory();
     return (
         <div className="container course-editor-background">
