@@ -2,6 +2,7 @@ import React from 'react'
 import CourseRow from "../course-row/course-row";
 import {Link} from "react-router-dom";
 
+
 export default class CourseTable
     extends React.Component {
 
@@ -9,7 +10,6 @@ export default class CourseTable
         super(props)
         console.log(props)
     }
-
     render() {
         return(
             <div>
@@ -29,12 +29,11 @@ export default class CourseTable
                             <i className="fas fa-folder fa-lg pr-4"/>
                             <i className="fas fa-sort-alpha-down-alt fa-lg pr-4"/>
                             <Link to="/courses/grid">
-                                <i className="fas fa-th fa-lg"></i>
+                                <i className="fas fa-th fa-lg"/>
                             </Link>
                         </th>
                     </tr>
                     </thead>
-
                     <tbody>
                     {
                         this.props.courses.map((course, ndx) =>
