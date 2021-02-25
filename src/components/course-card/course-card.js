@@ -34,7 +34,7 @@ const CourseCard = (props) => {
             <div className="card-body">
                 {
                     !editing &&
-                    <Link to="/courses/editor">
+                    <Link to="/editor">
                         <h4 className="card-title">{newTitle}</h4>
                     </Link>
                 }
@@ -49,7 +49,7 @@ const CourseCard = (props) => {
                 <p className="card-text">Description</p>
                 {
                     !editing &&
-                    <Link to="/courses/editor">
+                    <Link to="/editor">
                         <a className="btn mx-1 btn-primary">{newTitle}</a>
                     </Link>
                 }

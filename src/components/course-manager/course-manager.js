@@ -3,7 +3,6 @@ import {Route} from "react-router-dom";
 import {Link} from "react-router-dom";
 import CourseTable from "../course-table/course-table";
 import CourseGrid from "../course-grid/course-grid";
-import CourseEditor from "../course-editor/course-editor";
 import courseService from "../../services/course-service";
 import "./course-manager.css"
 
@@ -92,16 +91,11 @@ export default class CourseManager
                         deleteCourse={this.deleteCourse}
                         courses={this.state.courses}/>
                 </Route>
-                <Route path="/courses/editor"
-                       render={(props) => <CourseEditor props={props}/>}>
-                </Route>
-                {/*<div className="">*/}
-                {/*    <i className="fas fa-plus-circle fa-4x float-right"*/}
-                {/*       onClick={this.addCourse}/>*/}
-                {/*</div>*/}
+                {/*<Route path="/courses/editor"*/}
+                {/*       render={(props) => <CourseEditor props={props}/>}>*/}
+                {/*</Route>*/}
                 <button className="wbdv-bottom-right-button mx-2 btn btn-lg btn-primary rounded-circle" type="button"
-                        onClick={this.addCourse}
-                >
+                        onClick={this.addCourse}>
                     <i className="fas fa-plus"></i>
                 </button>
             </div>
