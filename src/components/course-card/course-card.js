@@ -1,32 +1,22 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Link} from "react-router-dom";
-import {useState} from 'react'
 import "./course-card.css"
 
 
-const CourseCard = (props) => {
-    const [editing, setEditing] = useState(false);
-    const [newTitle, setNewTitle] = useState(props.course.title);
+const CourseCard = (
+    {
+        deleteCourse, updateCourse, course, title
+    }) => {
+    const [editing, setEditing] = useState(false)
+    const [newTitle, setNewTitle] = useState(title)
+    const saveTitle = () => {
+        setEditing(false)
+        const newCourse = {...course, title: newTitle}
+        updateCourse(newCourse)
+    }
 
-    //     <div className="col-4">
-//         <div className="card">
-//             <img src="https://www.valuecoders.com/blog/wp-content/uploads/2016/08/react.png"
-//                  className="card-img-top"
-//                  alt="..."/>
-//
-//             <div className="card-body">
-//                 <h5 className="card-title">{course.title}</h5>
-//                 <p className="card-text">Some description.</p>
-//                 <img src={``}/>
-//                 <Link to="/courses/editor" className="btn btn-primary">
-//                     {course.title}
-//                 </Link>
-//                 <i className="fas fa-trash float-right"></i>
-//             </div>
-//         </div>
-//     </div>
-
-    return ( <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-1 my-3">
+    return (
+        <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-1 my-3">
         <div className="card">
             <img src="https://www.valuecoders.com/blog/wp-content/uploads/2016/08/react.png"
                  className="card-img-top"
@@ -53,34 +43,14 @@ const CourseCard = (props) => {
                         <a className="btn mx-1 btn-primary">{newTitle}</a>
                     </Link>
                 }
-
                 {
                     editing &&
                     <button className="btn mx-1 btn-primary" disabled>{newTitle}
                     </button>
                 }
-
-                {!editing && <i onClick={() => setEditing(true)} className="fas fa-edit pr-1"></i>}
-                {
-                    editing &&
-                    <button className="btn" onClick={() => {
-                        const newCourse = {
-                            ...props.course,
-                            title: newTitle
-                        }
-                        props.updateCourse(newCourse);
-                        setEditing(false);
-                    }} >
-                        <i class="fas fa-check" style={{color: 'green'}}></i></button>
-                }
-                {
-                    editing &&
-                    <button className="btn" onClick={() => {
-                        props.deleteCourse(props.course._id);
-                        setEditing(false);
-                    }}>
-                        <i className="fas fa-times"  style={{color: 'red'}}></i></button>
-                }
+                <i onClick={() => deleteCourse(course)} className="fas fa-trash fa-2x text-danger float-right pr-1"/>
+                {!editing && <i onClick={() => setEditing(true)} className="fas fa-edit fa-2x pr-1"/>}
+                {editing && <i onClick={() => saveTitle()} className="fas fa-check-circle fa-2x text-success"/>}
             </div>
         </div>
     </div>)
