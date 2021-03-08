@@ -1,49 +1,42 @@
 import React from "react";
-import {act} from "@testing-library/react";
 
 
 const initialState = {
-    modules: [
-        {_id: 111, title: "Module 111"},
-        {_id: 222, title: "Module 222"},
-        {_id: 333, title: "Module 333"}
-    ]
+    modules: []
 }
 
-const moduleReducer = (state=initialState, action) => {
+const moduleReducer = (state= initialState, action) => {
     switch (action.type) {
+        case "FIND_MODULES":
+            return {
+                ...state,
+                modules: action.modules
+            }
+
         case "CREATE_MODULE":
-            const newState1 = {
+            return {
                 modules: [
                     ...state.modules,
-                    {
-                        title: "NEW MODULE",
-                        _id: (new Date()).getTime()
-                    }
+                    action.module
                 ]
             }
-            return newState1
-
         case "DELETE_MODULE":
-            alert("delete" + action.moduleToDelete.title)
-            const newState2 = {
+            return {
                 modules: state.modules.filter(module => {
-                    if(module._id === action.moduleToDelete._id) {
+                    if (module._id === action.moduleToDelete._id) {
                         return false
                     } else {
                         return true
                     }
                 })
             }
-            return newState2
-
         case "UPDATE_MODULE":
             return {
-                modules: state.modules.map(m => {
-                    if (m._id === action.module._id) {
+                modules: state.modules.map(module => {
+                    if (module._id === action.module._id) {
                         return action.module
                     } else {
-                        return m
+                        return module
                     }
                 })
             }
