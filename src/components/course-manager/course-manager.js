@@ -5,6 +5,8 @@ import CourseTable from "../course-table/course-table";
 import CourseGrid from "../course-grid/course-grid";
 import courseService from "../../services/course-service";
 import "./course-manager.css"
+import CourseEditor from "../course-editor/course-editor";
+
 
 
 export default class CourseManager
@@ -12,6 +14,25 @@ export default class CourseManager
     state = {
         courses: []
     }
+
+    updateCourse = (course) => {
+        console.log(course)
+        courseService.updateCourse(course._id, course)
+            .then(status => {
+                this.setState((prevState) => {
+                    let nextState = {...prevState}
+                    nextState.courses = prevState.courses.map(c => {
+                        if (c._id === course._id) {
+                            return course
+                        } else {
+                            return c
+                        }
+                    })
+                    return nextState
+                })
+            })
+    }
+
     componentDidMount = () =>
         courseService.findAllCourses().then(courses => this.setState({courses}))
 
@@ -28,7 +49,7 @@ export default class CourseManager
 
     deleteCourse = (courseToDelete) => {
         courseService.deleteCourse(courseToDelete._id)
-            .then(() => {
+            .then(status => {
                 this.setState((prevState) => ({
                     ...prevState,
                     courses: prevState.courses.filter(course => course !== courseToDelete)
@@ -36,22 +57,7 @@ export default class CourseManager
             })
     }
 
-    updateCourse = (course) => {
-        courseService.updateCourse(course._id, course)
-            .then(() => {
-                this.setState((prevState) => {
-                    let nextState = {...prevState}
-                    nextState.courses = prevState.courses.map(c => {
-                        if (c._id === course._id) {
-                            return course
-                        } else {
-                            return c
-                        }
-                    })
-                    return nextState
-                })
-            })
-    }
+
 
     render() {
         return (
@@ -59,7 +65,7 @@ export default class CourseManager
                 <nav className="wbdv-sticky-top wbdv-padding-15px ">
                     <div className="row">
                         <div className="col-1">
-                            <i className="fa fa-align-justify fa-2x"></i>
+                            <i className="fa fa-align-justify fa-2x"/>
                         </div>
                         <div className="col-3 d-none d-lg-inline">
                             <h4>Course Manager</h4>
@@ -69,9 +75,9 @@ export default class CourseManager
 
                         </div>
                         <div className="col-2 input-group-append">
-                            <i className="fas fa-plus-circle fa-2x" onClick={this.addCourse}></i>
+                            <i className="fas fa-plus-circle fa-2x" onClick={this.addCourse}/>
                             <Link to="/">
-                                <i className="fas fa-2x fa-home float-right"></i>
+                                <i className="fas fa-2x fa-home float-right"/>
                             </Link>
                         </div>
                     </div>
@@ -86,17 +92,26 @@ export default class CourseManager
                         deleteCourse={this.deleteCourse}
                         courses={this.state.courses}/>
                 </Route>
+
                 <Route path="/courses/grid">
                     <CourseGrid
                         deleteCourse={this.deleteCourse}
                         courses={this.state.courses}/>
                 </Route>
-                {/*<Route path="/courses/editor"*/}
-                {/*       render={(props) => <CourseEditor props={props}/>}>*/}
-                {/*</Route>*/}
+
+                <Route path={[
+                    "/courses/editor/:courseId",
+                    "/courses/editor/:courseId/:moduleId",
+                    "/courses/editor/:courseId/:moduleId/:lessonId"
+                ]}
+                       exact={true}
+                       render={(props) => <CourseEditor {...props}/>}>
+                </Route>
+
+
                 <button className="wbdv-bottom-right-button mx-2 btn btn-lg btn-primary rounded-circle" type="button"
                         onClick={this.addCourse}>
-                    <i className="fas fa-plus"></i>
+                    <i className="fas fa-plus"/>
                 </button>
             </div>
         )
