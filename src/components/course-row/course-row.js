@@ -4,7 +4,12 @@ import {Link} from "react-router-dom";
 
 const CourseRow = (
     {
-        deleteCourse, updateCourse, course, lastModified, title, owner
+        deleteCourse,
+        updateCourse,
+        course,
+        lastModified,
+        title,
+        owner
     }) => {
     const [editing, setEditing] = useState(false)
     const [newTitle, setNewTitle] = useState(title)
@@ -17,15 +22,14 @@ const CourseRow = (
         <tr>
             <td>
                 {
-                    !editing && <Link to="/editor">{title}</Link>
+                    !editing && <Link to={`/courses/editor/${course._id}`}>{title}</Link>
                 }
                 {
                     editing &&
                     <input
                         onChange={(event) => setNewTitle(event.target.value)}
                         value={newTitle}
-                        className="form-control"
-                    />
+                        className="form-control"/>
                 }
             </td>
             <td class="d-none d-md-table-cell">{owner}</td>
