@@ -1,51 +1,79 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import EditableItem from "./editable-item";
+import {useParams} from "react-router-dom";
+import moduleService from "../../services/module-service";
 
-const ModuleList = (
-    {
-        myModules=[],
-        createModule,
-        deleteModule = (item) => alert("delete" + item.id),
+
+const ModuleList = ({
+        modules=[],
+        findModules=(courseId) => console.log(courseId),
+        createModule=() => alert("create new module"),
+        deleteModule=(item) => alert("delete" + item._id),
         updateModule
-    }) =>
+    }) => {
+    const {courseId, moduleId} = useParams();
+    useEffect(() => {
+        findModules(courseId)
+    },[])
+    return(
     <div>
-        <h2>Modules {myModules.length}</h2>
+        <h2>Modules</h2>
         <ul className="list-group">
             {
-                myModules.map(module =>
-                <li className="list-group-item">
+                modules.map(module =>
+                <li className={`list-group-item ${module._id === moduleId ? 'active' : ''}`}>
                     <EditableItem
+                        to={`/courses/editor/${courseId}/${module._id}`}
                         updateItem={updateModule}
                         deleteItem={deleteModule}
+                        active={module._id === moduleId}
                         item={module}/>
                 </li>
                 )
             }
             <li className="list-group-item">
-                <i onClick={createModule} className="fas fa-plus fa-2x"/>
+                <i onClick={() => createModule(courseId)} className="fas fa-plus fa-2x"/>
             </li>
         </ul>
     </div>
+    )}
 
-const stateToProperyMapper = (state) => {
+const stateToPropertyMapper = (state) => {
     return {
-        myModules: state.moduleReducer.modules
+        modules: state.moduleReducer.modules
     }
 }
 
 const dispatchToPropertyMapper = (dispatch) => {
     return {
-        createModule: () => dispatch({type: "CREATE_MODULE"}),
-        deleteModule: (item) => dispatch({
-            type: "DELETE_MODULE",
-            moduleToDelete: item
-        }),
-        updateModule: (module) => dispatch ({
-            type: "UPDATE_MODULE",
-            module: module
-        })
+        createModule: (courseId) => {
+            moduleService.createModule(courseId, {title: "New Module"})
+                .then(theActualModule => dispatch({
+                    type: "CREATE_MODULE",
+                    module: theActualModule
+            }))
+        },
+        deleteModule: (item) =>
+            moduleService.deleteModule(item._id)
+                .then(status => dispatch({
+                    type: "DELETE_MODULE",
+                    moduleToDelete: item
+        })),
+        updateModule: (module) =>
+            moduleService.updateModule(module._id, module)
+                .then(status => dispatch ({
+                    type: "UPDATE_MODULE",
+                    module: module
+            })),
+        findModules: (courseId) => {
+            moduleService.findModules(courseId)
+                .then(theModules => dispatch({
+                    type: "FIND_MODULES",
+                    modules: theModules
+            }))
+        }
     }
 }
 
-export default connect(stateToProperyMapper, dispatchToPropertyMapper) (ModuleList)
+export default connect(stateToPropertyMapper, dispatchToPropertyMapper) (ModuleList)
