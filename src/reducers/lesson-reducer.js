@@ -27,7 +27,7 @@ const lessonReducer = (state=initialState, action) => {
                     }
                 })
             }
-        case "UPDATE_MODULE":
+        case "UPDATE_LESSON":
             return {
                 lessons: state.lessons.map(lesson => {
                     if (lesson._id === action.lesson._id) {
