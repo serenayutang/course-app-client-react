@@ -22,7 +22,7 @@ const CourseRow = (
         <tr>
             <td>
                 {
-                    !editing && <Link to={`/courses/editor/${course._id}`}>{title}</Link>
+                    !editing && <Link to={`/courses/table/edit/${course._id}`}>{title}</Link>
                 }
                 {
                     editing &&
@@ -32,8 +32,8 @@ const CourseRow = (
                         className="form-control"/>
                 }
             </td>
-            <td class="d-none d-md-table-cell">{owner}</td>
-            <td class="d-none d-sm-table-cell">{lastModified}</td>
+            <td className="d-none d-md-table-cell">{owner}</td>
+            <td className="d-none d-sm-table-cell">{lastModified}</td>
             <td className="px-3 text-right">
                 <i onClick={() => deleteCourse(course)} className="fas fa-trash fa-2x text-danger float-right pr-1"/>
                 {!editing && <i onClick={() => setEditing(true)} className="fas fa-edit fa-2x pr-1"/>}

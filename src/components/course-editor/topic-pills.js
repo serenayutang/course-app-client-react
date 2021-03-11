@@ -2,80 +2,90 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import EditableItem from "./editable-item";
 import {useParams} from "react-router-dom";
-import lessonService from "../../services/lesson-service"
-import moduleService from "../../services/module-service";
+import topicService from "../../services/topic-service";
 
-// const LessonTabs = ({
-//                         lessons = [],
-//                         findLessons=(lessonId) => console.log(lessonId),
-//                         createLesson=() => alert("create new module"),
-//                         deleteLesson=(item) => alert("delete" + item._id),
-//                         updateLesson
-//                     }) => {
-//     const {courseId, moduleId, lessonId} = useParams();
-//     useEffect(() => {
-//         if (moduleId !== "undefined" && typeof moduleId !== "undefined") {
-//             findLessons(moduleId)
-//         }
-//         findLessons(moduleId)
-//     }, [moduleId])
-//     return(
-//         <div>
-//             <h2>Lessons</h2>
-//             <ul className="nav nav-pills">
-//                 {
-//                     lessons.map(lesson =>
-//                         <li className="nav-item">
-//                             <EditableItem
-//                                 to={`/courses/editor/${courseId}/${moduleId}/${lesson._id}`}
-//                                 updateItem={updateLesson}
-//                                 deleteItem={deleteLesson}
-//                                 active={lesson._id === lessonId}
-//                                 item={lesson}/>
-//                         </li>
-//                     )
-//                 }
-//                 <li>
-//                     <i onClick={() => createLesson(moduleId)} className="fas fa-plus"/>
-//                 </li>
-//             </ul>
-//         </div>)}
-//
-// const stateToPropertyMapper = (state) => {
-//     return {
-//         lessons: state.lessonReducer.lessons
-//     }
-// }
-//
-// const dispatchToPropertyMapper = (dispatch) => {
-//     return {
-//         createLesson: (moduleId) => {
-//             lessonService.createLesson(moduleId, {title: "New Lesson"})
-//                 .then(lesson => dispatch({
-//                     type: "CREATE_LESSON",
-//                     lesson
-//                 }))
-//         },
-//         deleteLesson: (item) =>
-//             lessonService.deleteLesson(item._id)
-//                 .then(status => dispatch({
-//                     type: "DELETE_LESSON",
-//                     lessonToDelete: item
-//                 })),
-//         updateLesson: (lesson) =>
-//             moduleService.updateModule(lesson._id, lesson)
-//                 .then(status => dispatch ({
-//                     type: "UPDATE_LESSON",
-//                     lesson
-//                 })),
-//         findLessons: (moduleId) => {
-//             lessonService.findLessons(moduleId)
-//                 .then(lessons => dispatch({
-//                     type: "FIND_LESSONS",
-//                     lessons
-//                 }))
-//         }
-//     }
-// }
-//
-// export default connect(stateToPropertyMapper, dispatchToPropertyMapper) (LessonTabs)
+
+const TopicPills = ({
+                       topics = [],
+                        findTopicsForLesson=(topicId) => console.log(topicId),
+                        createTopic=() => alert("create new topic"),
+                        deleteTopic=(item) => alert("delete" + item._id),
+                        updateTopic,
+                        cleanState
+                    }) => {
+    const {courseId, moduleId, lessonId, topicId, layout} = useParams();
+    useEffect(() => {
+        if (lessonId !== "undefined" && typeof lessonId !== "undefined") {
+            findTopicsForLesson(lessonId)
+        } else {
+            cleanState()
+        }
+    }, [lessonId])
+
+    return(
+        <div>
+            <h2>Topics</h2>
+            <ul className="nav nav-pills">
+                {
+                    topics.map(tp =>
+                        <li className="nav-item">
+                            <EditableItem
+                                active={tp._id === topicId}
+                                to={`/courses/${layout}/edit/${courseId}/modules/${moduleId}/lessons/${lessonId}/topics/${tp._id}`}
+                                updateItem={updateTopic}
+                                deleteItem={deleteTopic}
+                                key={tp._id}
+                                item={tp}/>
+                        </li>
+                    )
+                }
+                <li>
+                    <i onClick={() => createTopic(lessonId)} className="fas fa-plus float-right"/>
+                </li>
+            </ul>
+        </div>)}
+
+const stateToPropertyMapper = (state) => {
+    return {
+        topics: state.topicReducer.topics
+    }
+}
+
+const dispatchToPropertyMapper = (dispatch) => {
+    return {
+        createTopic: (lessonId) => {
+            topicService.createTopic(lessonId, {title: "New Topic"})
+                .then(tp => dispatch({
+                    type: "CREATE_TOPIC",
+                    topic: tp
+                }))
+        },
+
+        deleteTopic: (topic) =>
+            topicService.deleteTopic(topic._id)
+                .then(status => dispatch({
+                    type: "DELETE_TOPIC",
+                    topicToDelete: topic
+                })),
+        updateTopic: (topic) =>
+            topicService.updateTopic(topic._id, topic)
+                .then(status => dispatch ({
+                    type: "UPDATE_TOPIC",
+                    topic
+                })),
+        findTopicsForLesson: (lessonId) => {
+            topicService.findTopicsForLesson(lessonId)
+                .then(topics => dispatch({
+                    type: "FIND_TOPICS",
+                    topics
+                }))
+        },
+
+        cleanState: () =>
+            dispatch({
+                type: "CLEAN_STATE"
+            })
+    }
+}
+
+export default connect(stateToPropertyMapper, dispatchToPropertyMapper) (TopicPills)

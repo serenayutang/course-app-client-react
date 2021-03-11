@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import EditableItem from "./editable-item";
 import {useParams} from "react-router-dom";
+import EditableItem from "./editable-item";
 import moduleService from "../../services/module-service";
 
 
@@ -12,31 +12,32 @@ const ModuleList = ({
         deleteModule=(item) => alert("delete" + item._id),
         updateModule
     }) => {
-    const {courseId, moduleId} = useParams();
+    const {courseId, moduleId, layout} = useParams();
     useEffect(() => {
         findModules(courseId)
     },[])
     return(
-    <div>
-        <h2>Modules</h2>
-        <ul className="list-group">
-            {
-                modules.map(module =>
-                <li className={`list-group-item ${module._id === moduleId ? 'active' : ''}`}>
-                    <EditableItem
-                        to={`/courses/editor/${courseId}/${module._id}`}
-                        updateItem={updateModule}
-                        deleteItem={deleteModule}
-                        active={module._id === moduleId}
-                        item={module}/>
+        <div>
+            <h2>Modules</h2>
+            <ul className="list-group">
+                {
+                    modules.map(module =>
+                    <li className={`list-group-item ${module._id === moduleId ? 'active' : ''}`}>
+                        <EditableItem
+                            to={`/courses/${layout}/edit/${courseId}/modules/${module._id}`}
+                            updateItem={updateModule}
+                            deleteItem={deleteModule}
+                            active={module._id === moduleId}
+                            key={module._id}
+                            item={module}/>
+                    </li>
+                    )
+                }
+                <li className="list-group-item">
+                    <i onClick={() => createModule(courseId)} className="fas fa-plus fa-2x"/>
                 </li>
-                )
-            }
-            <li className="list-group-item">
-                <i onClick={() => createModule(courseId)} className="fas fa-plus fa-2x"/>
-            </li>
-        </ul>
-    </div>
+            </ul>
+        </div>
     )}
 
 const stateToPropertyMapper = (state) => {

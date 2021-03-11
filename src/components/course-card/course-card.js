@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import "./course-card.css"
 
 
-
 const CourseCard = (
     {
         deleteCourse, updateCourse, course, title
@@ -24,9 +23,11 @@ const CourseCard = (
         <div className="card-body">
             {
                 !editing &&
-                <Link to="/editor">
-                    <h4 className="card-title">{newTitle}</h4>
-                </Link>
+                <h5 className="card-title">
+                    <Link to={`/courses/grid/edit/${course._id}`}>
+                        {course.title}
+                    </Link>
+                </h5>
             }
             {
                 editing &&
@@ -39,7 +40,7 @@ const CourseCard = (
             <p className="card-text">Description</p>
             {
                 !editing &&
-                <Link to="/editor">
+                <Link to={`/courses/grid/edit/${course._id}`}>
                     <a className="btn mx-1 btn-primary">{newTitle}</a>
                 </Link>
             }
@@ -48,7 +49,7 @@ const CourseCard = (
                 <button className="btn mx-1 btn-primary" disabled>{newTitle}
                 </button>
             }
-            <i onClick={() => deleteCourse(course)} className="fas fa-trash fa-2x text-danger float-right pr-1"/>
+            <i onClick={() => deleteCourse(course)} className="fas fa-trash fa-2x text-dan  ger float-right pr-1"/>
             {!editing && <i onClick={() => setEditing(true)} className="fas fa-edit fa-2x pr-1"/>}
             {editing && <i onClick={() => saveTitle()} className="fas fa-check-circle fa-2x text-success"/>}
         </div>

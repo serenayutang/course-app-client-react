@@ -10,14 +10,17 @@ const LessonTabs = ({
         findLessons=(lessonId) => console.log(lessonId),
         createLesson=() => alert("create new module"),
         deleteLesson=(item) => alert("delete" + item._id),
-        updateLesson
+        updateLesson,
+        resetLessons
     }) => {
-    const {courseId, moduleId, lessonId} = useParams();
+    const {courseId, moduleId, lessonId, layout} = useParams();
     useEffect(() => {
         if (moduleId !== "undefined" && typeof moduleId !== "undefined") {
             findLessons(moduleId)
+        } else {
+            resetLessons()
         }
-        findLessons(moduleId)
+        // findLessons(moduleId)
     }, [moduleId])
    return(
        <div>
@@ -27,10 +30,11 @@ const LessonTabs = ({
                     lessons.map(lesson =>
                         <li className="nav-item">
                             <EditableItem
-                                to={`/courses/editor/${courseId}/${moduleId}/${lesson._id}`}
+                                active={lesson._id === lessonId}
+                                to={`/courses/${layout}/edit/${courseId}/modules/${moduleId}/lessons/${lesson._id}`}
                                 updateItem={updateLesson}
                                 deleteItem={deleteLesson}
-                                active={lesson._id === lessonId}
+                                key={lesson._id}
                                 item={lesson}/>
                         </li>
                     )
@@ -74,6 +78,11 @@ const dispatchToPropertyMapper = (dispatch) => {
                     type: "FIND_LESSONS",
                     lessons
                 }))
+        },
+        resetLessons : () => {
+            dispatch({
+                type: "FIND_LESSONS_FOR_MODULE",
+            })
         }
     }
 }
