@@ -12,30 +12,37 @@ const TopicPills = ({
                         deleteTopic=(item) => alert("delete" + item._id),
                         updateTopic,
                         cleanState
-                    }) => {
+}) => {
     const {courseId, moduleId, lessonId, topicId, layout} = useParams();
     useEffect(() => {
         if (lessonId !== "undefined" && typeof lessonId !== "undefined") {
             findTopicsForLesson(lessonId)
         } else {
-            cleanState()
+            cleanState([])
         }
     }, [lessonId])
+
+    useEffect(() => {
+        if (lessonId !== "undefined" && typeof lessonId !== "undefined")
+            findTopicsForLesson(lessonId);
+        else
+            cleanState([]);
+    }, [moduleId]);
 
     return(
         <div>
             <h2>Topics</h2>
             <ul className="nav nav-pills">
                 {
-                    topics.map(tp =>
+                    topics.map(topic =>
                         <li className="nav-item">
                             <EditableItem
-                                active={tp._id === topicId}
-                                to={`/courses/${layout}/edit/${courseId}/modules/${moduleId}/lessons/${lessonId}/topics/${tp._id}`}
+                                active={topic._id === topicId}
+                                to={`/courses/${layout}/edit/${courseId}/modules/${moduleId}/lessons/${lessonId}/topics/${topic._id}`}
                                 updateItem={updateTopic}
                                 deleteItem={deleteTopic}
-                                key={tp._id}
-                                item={tp}/>
+                                key={topic._id}
+                                item={topic}/>
                         </li>
                     )
                 }
@@ -55,9 +62,9 @@ const dispatchToPropertyMapper = (dispatch) => {
     return {
         createTopic: (lessonId) => {
             topicService.createTopic(lessonId, {title: "New Topic"})
-                .then(tp => dispatch({
+                .then(topic => dispatch({
                     type: "CREATE_TOPIC",
-                    topic: tp
+                    topic: topic
                 }))
         },
 

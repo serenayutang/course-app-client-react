@@ -11,17 +11,18 @@ const LessonTabs = ({
         createLesson=() => alert("create new module"),
         deleteLesson=(item) => alert("delete" + item._id),
         updateLesson,
-        resetLessons
-    }) => {
+        cleanState
+}) => {
     const {courseId, moduleId, lessonId, layout} = useParams();
+
     useEffect(() => {
         if (moduleId !== "undefined" && typeof moduleId !== "undefined") {
             findLessons(moduleId)
         } else {
-            resetLessons()
+            cleanState([])
         }
-        // findLessons(moduleId)
     }, [moduleId])
+
    return(
        <div>
             <h2>Lessons</h2>
@@ -79,9 +80,9 @@ const dispatchToPropertyMapper = (dispatch) => {
                     lessons
                 }))
         },
-        resetLessons : () => {
+        cleanState : () => {
             dispatch({
-                type: "FIND_LESSONS_FOR_MODULE",
+                type: "CLEAN_STATE",
             })
         }
     }
