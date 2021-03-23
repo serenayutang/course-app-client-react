@@ -45,7 +45,7 @@ const widgetReducer = (state=initialState, action) => {
                 ...state,
                 widgets: state.widgets.map(widget => {
                     if(widget.id === action.widget.id) {
-                        return action.widgets
+                        return action.widget
                     } else {
                         return widget
                     }

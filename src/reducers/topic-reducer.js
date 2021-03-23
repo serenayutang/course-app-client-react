@@ -31,7 +31,7 @@ const topicReducer = (state=initialState, action) => {
             return {
                 topics: state.topics.map(topic => {
                     if (topic._id === action.topic._id) {
-                        return action.topics
+                        return action.topic
                     } else {
                         return topic
                     }
