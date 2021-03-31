@@ -4,6 +4,8 @@ import ParagraphWidget from "./paragraph-widget";
 import HeadingWidget from "./heading-widget";
 import {useParams} from "react-router-dom";
 import widgetActions from "../../actions/widget-actions";
+import ListWidget from "./list-widget";
+import ImageWidget from "./image-widget";
 
 const WidgetList = ({
                         widgets,
@@ -48,7 +50,9 @@ const WidgetList = ({
                             {
                                 _widget.id === activeWidget.id &&
                                 <>
-                                    <i onClick={() => deleteWidget(_widget.id)} className="fas btn fa-trash float-right"/>
+                                    <i onClick={() => {
+                                        deleteWidget(_widget.id)
+                                    }} className="fas btn fa-trash float-right"/>
                                     <i onClick={() => {
                                         updateWidget(_widget.id, activeWidget)
                                     }} className="fas btn fa-check float-right"/>
@@ -64,6 +68,22 @@ const WidgetList = ({
                                     {
                                         activeWidget.type === "PARAGRAPH" &&
                                         <ParagraphWidget
+                                            setWidget={setActiveWidget}
+                                            editing={_widget.id === activeWidget.id}
+                                            widgetActive={activeWidget}
+                                            widgetItem={_widget}/>
+                                    }
+                                    {
+                                        activeWidget.type === "LIST" &&
+                                        <ListWidget
+                                            setWidget={setActiveWidget}
+                                            editing={_widget.id === activeWidget.id}
+                                            widgetActive={activeWidget}
+                                            widgetItem={_widget}/>
+                                    }
+                                    {
+                                        activeWidget.type === "IMAGE" &&
+                                        <ImageWidget
                                             setWidget={setActiveWidget}
                                             editing={_widget.id === activeWidget.id}
                                             widgetActive={activeWidget}
@@ -91,6 +111,22 @@ const WidgetList = ({
                                             widgetActive={activeWidget}
                                             widgetItem={_widget}/>
                                     }
+                                    {
+                                        _widget.type === "LIST" &&
+                                        <ListWidget
+                                            setWidget={setActiveWidget}
+                                            editing={_widget.id === activeWidget.id}
+                                            widgetActive={activeWidget}
+                                            widgetItem={_widget}/>
+                                    }
+                                    {
+                                        _widget.type === "IMAGE" &&
+                                        <ImageWidget
+                                            setWidget={setActiveWidget}
+                                            editing={_widget.id === activeWidget.id}
+                                            widgetActive={activeWidget}
+                                            widgetItem={_widget}/>
+                                    }
                                 </div>
                             }
                         </li>
@@ -108,8 +144,12 @@ const stateToPropertyMapper = (state) => (
 const dispatchToPropertyMapper = (dispatch) => ({
     findWidgetsForTopic: (topicId) => widgetActions.findWidgetsForTopic(dispatch, topicId),
     createWidgetForTopic: (topicId) => widgetActions.createWidgetForTopic(dispatch, topicId),
-    deleteWidget: (id) => widgetActions.deleteWidget(dispatch, id),
-    updateWidget: (id, widget) => widgetActions.updateWidget(dispatch, id, widget),
+    deleteWidget: (id) => {
+        widgetActions.deleteWidget(dispatch, id)
+    },
+    updateWidget: (id, widget) => {
+        widgetActions.updateWidget(dispatch, id, widget)
+    },
     setActiveWidget: (widget) => widgetActions.setActiveWidget(dispatch, widget),
     cleanState : () => widgetActions.cleanState(dispatch)
 })
