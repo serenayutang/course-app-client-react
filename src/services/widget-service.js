@@ -1,5 +1,8 @@
-const TOPICS_URL = "https://webdev-serenaytang.herokuapp.com/api/topics";
-const WIDGETS_URL = "https://webdev-serenaytang.herokuapp.com/api/widgets";
+// const TOPICS_URL = "https://webdev-serenaytang.herokuapp.com/api/topics";
+const TOPICS_URL = "http://localhost:8080/api/topics";
+// const WIDGETS_URL = "https://webdev-serenaytang.herokuapp.com/api/widgets";
+const WIDGETS_URL = "http://localhost:8080/api/widgets";
+
 
 export const createWidgetForTopic = (topicId, widget) =>
     fetch(`${TOPICS_URL}/${topicId}/widgets`, {
