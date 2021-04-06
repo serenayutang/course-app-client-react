@@ -6,6 +6,8 @@ import CourseGrid from "../course-grid/course-grid";
 import courseService from "../../services/course-service";
 import "./course-manager.css"
 import CourseEditor from "../course-editor/course-editor";
+import QuizzesList from "../quizzes/quizzes-list";
+import Quiz from "../quizzes/quiz";
 
 
 export default class CourseManager
@@ -101,6 +103,12 @@ export default class CourseManager
                        render={(props) => <CourseEditor {...props}/>}>
                 </Route>
 
+                <Route path = '/courses/:courseId/quizzes' exact = {true}>
+                    <QuizzesList />
+                </Route>
+                <Route path = '/courses/:courseId/quizzes/:quizId' exact = {true}>
+                    <Quiz />
+                </Route>
 
                 <button className="wbdv-bottom-right-button mx-2 btn btn-lg btn-primary rounded-circle" type="button"
                         onClick={this.addCourse}>
