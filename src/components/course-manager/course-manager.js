@@ -106,6 +106,7 @@ export default class CourseManager
                 <Route path = '/courses/:courseId/quizzes' exact = {true}>
                     <QuizzesList />
                 </Route>
+
                 <Route path = '/courses/:courseId/quizzes/:quizId' exact = {true}>
                     <Quiz />
                 </Route>
