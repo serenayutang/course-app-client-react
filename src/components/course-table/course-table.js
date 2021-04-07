@@ -25,6 +25,9 @@ export default class CourseTable
                         <th className="d-none d-sm-table-cell">
                             Last Modified
                         </th>
+                        <th className="d-none d-sm-table-cell">
+                            Quizzes
+                        </th>
                         <th className="text-right">
                             <i className="fas fa-folder fa-lg pr-4"/>
                             <i className="fas fa-sort-alpha-down-alt fa-lg pr-4"/>
