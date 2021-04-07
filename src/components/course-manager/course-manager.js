@@ -102,7 +102,6 @@ export default class CourseManager
                        exact={true}
                        render={(props) => <CourseEditor {...props}/>}>
                 </Route>
-
                 <Route path = '/courses/:courseId/quizzes' exact = {true}>
                     <QuizzesList />
                 </Route>
