@@ -8,6 +8,7 @@ import "./course-manager.css"
 import CourseEditor from "../course-editor/course-editor";
 import QuizzesList from "../quizzes/quizzes-list";
 import Quiz from "../quizzes/quiz";
+import Attempt from "../quizzes/quiz-attempt";
 
 
 export default class CourseManager
@@ -108,6 +109,10 @@ export default class CourseManager
 
                 <Route path = '/courses/:courseId/quizzes/:quizId' exact = {true}>
                     <Quiz />
+                </Route>
+
+                <Route path = '/courses/:courseId/quizzes/:quizId/attempts' exact = {true}>
+                    <Attempt />
                 </Route>
 
                 <button className="wbdv-bottom-right-button mx-2 btn btn-lg btn-primary rounded-circle" type="button"

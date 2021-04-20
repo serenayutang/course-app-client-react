@@ -1,57 +1,41 @@
 import React, {useState} from "react";
 
-const MultipleChoiceQuestion = ({question}) => {
+const MultipleChoiceQuestion = ({index, question, isCorrect, userAttempts, setUserAttempts}) => {
     const [userAnswer, setUserAnswer] = useState('')
-    const [isCorrect, setIsCorrect] = useState(null)
+
+    const updateUserAnswer = (answer) => {
+        setUserAnswer(answer)
+        userAttempts[index] = answer;
+        setUserAttempts(userAttempts);
+    }
 
     return (
-        <div className = 'container-fluid'>
+        <div>
             <h3>{question.question}
-                {
-                    isCorrect && <i className="fas fa-check checkIconColor"/>
-                }
-                {
-                    isCorrect === false && <i className="fas fa-times crossIconColor"/>
-                }
-            </h3>
-            <ul className = 'list-group no-bullets'>
+                {isCorrect && <i className="fas fa-check"/>}
+                {isCorrect === false && <i className="fas fa-times"/>}</h3>
+            <ul className='list-group'>
                 {
                     question.choices.map((choice, index) =>
-                        <ul key = {index}>
+                        <li key={index}>
                             <label
-                                className = {`list-group-item 
-                                    ${isCorrect !== null 
-                                        && question.correct === choice 
-                                        && 'list-group-item-success'}
-                                    ${isCorrect !== null 
-                                        && userAnswer === choice 
-                                        && userAnswer !== question.correct 
-                                        && 'list-group-item-danger'}`} >
-                                <input type='radio' onClick={() => setUserAnswer(choice)} name={question._id}/>
+                                className={`list-group-item 
+                                    ${isCorrect !== null && question.correct === choice && 'list-group-item-success'}
+                                    ${isCorrect !== null && userAnswer === choice && userAnswer !== question.correct && 
+                                    'list-group-item-danger'}`}>
+                                <input type='radio'
+                                       name={question._id}
+                                       onClick={() => updateUserAnswer(choice)}/>
                                 {choice}
-                                {isCorrect !== null
-                                    && question.correct === choice
-                                    && <i className="fas fa-check checkIconColor float-right"/>}
-                                {isCorrect !== null
-                                    && userAnswer !== question.correct
-                                    && userAnswer === choice
-                                    && <i className="fas fa-times crossIconColor float-right"/>}
+                                {isCorrect !== null && question.correct === choice &&
+                                <i className="fas fa-check float-right"/>}
+                                {isCorrect !== null && userAnswer !== question.correct && userAnswer === choice &&
+                                <i className="fas fa-times float-right"/>}
                             </label>
-                        </ul>
-                    )
+                        </li>)
                 }
             </ul>
             <h6>Your Answer: {userAnswer}</h6>
-            <button onClick = {() => {
-                if (userAnswer === question.correct) {
-                    setIsCorrect(true)
-                } else {
-                    setIsCorrect(false)
-                }
-            }}
-                    className = 'btn btn-success'>
-                Grade
-            </button>
         </div>
     )
 }
